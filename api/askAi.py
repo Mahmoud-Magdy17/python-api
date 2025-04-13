@@ -6,9 +6,9 @@ app = Flask(__name__)
 # Gradio client setup
 client = Client("mahmoud176203/chat_bot")
 
-@app.route('/')
-def index():
-    return 'Send a GET request to /askAi?text=your_message'
+# @app.route('/')
+# def index():
+#     return 'Send a GET request to /askAi?text=your_message'
 
 @app.route('/askAi')
 def ask_ai():
