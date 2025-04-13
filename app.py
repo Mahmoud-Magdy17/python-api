@@ -1,15 +1,33 @@
-from flask import Flask, jsonify, request
+from flask import Flask, request
+from gradio_client import Client
 
 app = Flask(__name__)
 
-# Example Python function to be called
-def my_function():
-    return "Hello from Python!"
+# Gradio client setup
+client = Client("mahmoud176203/chat_bot")
 
-@app.route('/run-python', methods=['GET'])
-def run_python_function():
-    result = my_function()  # Call the Python function
-    return jsonify({'message': result})
+@app.route('/')
+def index():
+    return 'Send a GET request to /askAi?text=your_message'
+
+@app.route('/askAi')
+def ask_ai():
+    text = request.args.get('text')
+    if not text:
+        return 'Please provide a "text" parameter in the URL.'
+
+    try:
+        result = client.predict(
+            message=text,
+            system_message="You are a friendly Chatbot.",
+            max_tokens=512,
+            temperature=0.7,
+            top_p=0.95,
+            api_name="/chat"
+        )
+        return result
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=81)
