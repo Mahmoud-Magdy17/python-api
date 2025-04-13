@@ -1,2 +1,2 @@
 def handler(request):
-    return "Welcome to the Python API! Try /api/ask?text=Hello"
+    return "✅ Welcome to your Python API! Try /api/ask?text=Hello"
